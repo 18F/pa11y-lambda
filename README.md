@@ -27,6 +27,17 @@ To add something to the `package.json` file:
 docker-compose run web npm install --save [name of module]
 ```
 
+To modify the function, edit `app/index.js` inside `exports.handler`.
+
+To package it up for upload to AWS Lambda:
+
+```
+cd app
+zip -r ../pa11y-lambda.zip .
+```
+
+The resulting .zip file is suitable for upload to Lambda.
+
 ## Public domain
 
 This project is in the worldwide [public domain](LICENSE.md). As stated in [CONTRIBUTING](CONTRIBUTING.md):
