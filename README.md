@@ -4,11 +4,24 @@ Run pa11y scans on AWS Lambda.
 
 ## Quickstart
 
-Download `pa11y-lambda.zip`, upload to AWS Lambda, and you're good to go.
+### Upload to Lambda
 
-Currently, the .zip file contains just a proof of concept (displays the results of a scan of nature.com in the logs), but this will soon be updated to be dynamic and customizable.
+Download `pa11y-lambda.zip` from the releases page, upload to AWS Lambda, and you're good to go.
 
-## Installation/development
+When you test/run the function, the `event` payload should resemble what's found in `app/run.js`:
+
+```javascript
+var event = {
+  url: '18f.gsa.gov',
+  pa11yOptions: {
+    standard: 'WCAG2AA'
+  }
+}
+```
+
+The handler should be configured to be `index.handler`.
+
+## Development
 
 Dependencies:
 
@@ -27,13 +40,22 @@ To add something to the `package.json` file:
 docker-compose run web npm install --save [name of module]
 ```
 
-To modify the function, edit `app/index.js` inside `exports.handler`.
+To modify the function, edit `app/index.js`.
+
+### Running locally
+
+To run the task locally:
+
+```
+docker-compose run web node run.js
+```
+
+### Creating a new .zip file
 
 To package it up for upload to AWS Lambda:
 
 ```
-cd app
-zip -r ../pa11y-lambda.zip .
+./build-release.sh
 ```
 
 The resulting .zip file is suitable for upload to Lambda.

@@ -1,6 +1,5 @@
 FROM ubuntu:14.04
 RUN apt-get update
-RUN apt-get install -y nodejs npm git git-core
-RUN apt-get install -y phantomjs
+RUN apt-get install -y nodejs-legacy npm git git-core phantomjs
 WORKDIR /app
 COPY app/ .
