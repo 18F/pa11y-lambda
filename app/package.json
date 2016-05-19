@@ -10,6 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "pa11y": "^3.7.1"
+    "lambda-phantomjs-installer": "0.0.2",
+    "pa11y": "^3.7.1",
+    "q": "^1.4.1",
+    "request": "^2.72.0",
+    "underscore": "^1.8.3"
   }
 }
