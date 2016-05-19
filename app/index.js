@@ -1,24 +1,48 @@
-var PhantomJSInstaller = require('./phantomjs_install.js');
-var phantomjs_installer = new PhantomJSInstaller();
-var pa11y = require('pa11y');
+var inLambda = function() {
+  return false;
+};
+
+var pa11yHandler = function(url, options, callback) {
+  var pa11y = require('pa11y');
+  var test = pa11y(options);
+
+  test.run('nature.com', function (error, results) {
+    if (!error) {
+      callback(results);
+    } else {
+      callback(error);
+    }
+  });
+};
+
+var installPhantomJS = function(callback) {
+  var PhantomJSInstaller = require('./phantomjs_install.js');
+  var phantomjs_installer = new PhantomJSInstaller();
+  phantomjs_installer
+    .install()
+    .then(function(phantomjs_path) {
+      callback(phantomjs_path)
+      context.done();
+    })
+    .catch(function(err) {
+      context.done(err);
+    });
+};
 
 exports.handler = function(event, context, callback) {
-  console.log('about to install phantomjs');
-  phantomjs_installer
-        .install()
-        .then( function( phantomjs_path ) {
-            console.log( 'PhantomJS Installed at ' + phantomjs_path );
-            var test = pa11y({
-              phantom: {path: phantomjs_path}
-            });
+  var options = {};
 
-            test.run('nature.com', function (error, results) {
-              console.log(results);
-            });
-            callback(null, "some success message");
-            context.done();
-        } )
-        .catch( function( err ) {
-            context.done( err );
-        } );
+  if (inLambda()) {
+    installPhantomJS(function(phantomjs_path) {
+      options['phantom'] = {path: phantomjs_path};
+      pa11yHandler('nature.com', options, function(results) {
+        callback(null, results);
+      });
+    });
+  } else {
+    pa11yHandler('nature.com', options, function(results) {
+      callback(null, results);
+    });
+  }
+
 };
