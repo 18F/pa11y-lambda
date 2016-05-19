@@ -1,5 +1,5 @@
-var inLambda = function() {
-  return false;
+var inLambda = function(context) {
+  return typeof context.development == 'undefined';
 };
 
 var pa11yHandler = function(url, options, callback) {
@@ -30,19 +30,25 @@ var installPhantomJS = function(callback) {
 };
 
 exports.handler = function(event, context, callback) {
-  var options = {};
+  var options = event.pa11yOptions;
+  var url = event.url;
 
-  if (inLambda()) {
+  if (inLambda(context)) {
+
     installPhantomJS(function(phantomjs_path) {
       options['phantom'] = {path: phantomjs_path};
-      pa11yHandler('nature.com', options, function(results) {
+
+      pa11yHandler(url, options, function(results) {
         callback(null, results);
       });
     });
+
   } else {
-    pa11yHandler('nature.com', options, function(results) {
+
+    pa11yHandler(url, options, function(results) {
       callback(null, results);
     });
+
   }
 
 };

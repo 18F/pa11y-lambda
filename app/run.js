@@ -1,7 +1,14 @@
 var index = require('./index.js');
 
-var event = {};
-var context = {};
+var event = {
+  url: 'whitehouse.gov',
+  pa11yOptions: {}
+};
+
+var context = {
+  development: true
+};
+
 var callback = function(error, results) {
   if (!error) {
     console.log('Results:');
