@@ -6,7 +6,7 @@ var pa11yHandler = function(url, options, callback) {
   var pa11y = require('pa11y');
   var test = pa11y(options);
 
-  test.run('nature.com', function (error, results) {
+  test.run(url, function (error, results) {
     if (!error) {
       callback(results);
     } else {
@@ -30,7 +30,7 @@ var installPhantomJS = function(callback) {
 };
 
 exports.handler = function(event, context, callback) {
-  var options = event.pa11yOptions || {};
+  var options = event.pa11yOptions;
   var url = event.url;
 
   if (inLambda(context)) {
