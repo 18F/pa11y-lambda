@@ -30,7 +30,7 @@ var installPhantomJS = function(callback) {
 };
 
 exports.handler = function(event, context, callback) {
-  var options = event.pa11yOptions;
+  var options = event.pa11yOptions || {};
   var url = event.url;
 
   if (inLambda(context)) {
