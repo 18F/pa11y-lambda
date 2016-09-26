@@ -19,6 +19,8 @@ var event = {
 }
 ```
 
+The runtime should be set to `NodeJS`. 
+
 The handler should be configured to be `index.handler`.
 
 ## Development
